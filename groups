@@ -2,4 +2,3 @@
 #
 1cfbbaf5d7d1c209f9d727dfef2353f74fbbe782                                       	saml/o-ran-sc-gerrit-ric-app-ad-committers
 add1d629e64dce7097223c93ca6e710c1460b5ba                                       	GitHub Replication
-ldap:cn=o-ran-sc-gerrit-ric-app-ad-committers,ou=Groups,dc=freestandards,dc=org	ldap/o-ran-sc-gerrit-ric-app-ad-committers

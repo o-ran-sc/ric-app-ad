@@ -1,0 +1,43 @@
+{
+        "xapp_name": "ad",
+        "version": "0.0.1",
+        "containers": [
+            {
+                "name": "ad",
+                "image": {
+                    "registry": "nexus3.o-ran-sc.org:10002",
+                    "name": "o-ran-sc/ric-app-ad",
+                    "tag": "0.0.1"
+                }
+            }
+        ],
+        "messaging": {
+            "ports": [
+                {
+                    "name": "rmr-data",
+                    "container": "ad",
+                    "port": 4560,
+                    "txMessages": ["TS_ANOMALY_UPDATE"],
+                    "rxMessages": ["TS_ANOMALY_ACK"],
+                    "policies": [],
+                    "description": "rmr receive data port for ad"
+                },
+                {
+                    "name": "rmr-route",
+                    "container": "ad",
+                    "port": 4561,
+                    "description": "rmr route port for ad"
+                }
+            ]
+        },
+        "rmr": {
+            "protPort": "tcp:4560",
+            "maxSize": 2072,
+            "numWorkers": 1,
+            "rxMessages": ["TS_ANOMALY_ACK"],
+            "txMessages": ["TS_ANOMALY_UPDATE"],
+            "policies": []
+        }
+
+}
+

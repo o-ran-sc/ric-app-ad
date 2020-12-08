@@ -68,6 +68,6 @@ def predict(self):
             self.rmr_free(sbuf)
     
 # Initiates xapp api and runs the entry() using xapp.run()
-xapp = Xapp(entrypoint=entry, rmr_port=4564, use_fake_sdl=True)
+xapp = Xapp(entrypoint=entry, rmr_port=4560, use_fake_sdl=True)
 xapp.run()
 

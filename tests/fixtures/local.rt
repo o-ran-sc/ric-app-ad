@@ -13,24 +13,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ==================================================================================
-
-import pandas as pd
-from ad_model.processing import preprocess
-import datetime
-
-UEKeyList = ['MeasTimestampRF', 'UEPDCPBytesDL', 'UEPDCPBytesUL', 'UEPRBUsageDL', 'UEPRBUsageUL', 'S_RSRP', 'S_RSRQ', 'S_SINR', 'UEID']
-
-
-def parse(df):
-    """
-      This block will be modified when we are going to fetch the data from database via sdl api.
-      start the preprocessing, processing steps using the keycolumns
-      populates the current timestamp value for MeasTimestampRF
-    """
-    df.index = range(df.shape[0])
-    df = df[UEKeyList]
-    db = preprocess(df)
-    df = db.process()
-    del db
-    df['MeasTimestampRF'] = pd.date_range(start=datetime.datetime.now(), periods=len(df), freq='-10ms')
-    return df
+newrt|start
+rte|30003|service-ricxapp-trafficxapp-rmr.ricxapp.svc.cluster.local:4560
+newrt|end

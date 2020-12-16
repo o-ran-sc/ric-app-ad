@@ -16,14 +16,14 @@
 
 import pandas as pd
 from ad_model.processing import preprocess
-import datetime
+import json, datetime
 
-UEKeyList = ['MeasTimestampRF', 'UEPDCPBytesDL', 'UEPDCPBytesUL', 'UEPRBUsageDL', 'UEPRBUsageUL', 'S_RSRP', 'S_RSRQ', 'S_SINR', 'UEID']
-
+UEKeyList = ['MeasTimestampRF','UEPDCPBytesDL', 'UEPDCPBytesUL', 'UEPRBUsageDL', 'UEPRBUsageUL','S_RSRP', 'S_RSRQ', 'S_SINR','UEID']
 
 def parse(df):
     """
       This block will be modified when we are going to fetch the data from database via sdl api.
+
       start the preprocessing, processing steps using the keycolumns
       populates the current timestamp value for MeasTimestampRF
     """
@@ -32,5 +32,5 @@ def parse(df):
     db = preprocess(df)
     df = db.process()
     del db
-    df['MeasTimestampRF'] = pd.date_range(start=datetime.datetime.now(), periods=len(df), freq='-10ms')
+    df['MeasTimestampRF'] = pd.date_range(start = datetime.datetime.now(), periods = len(df), freq = '-10ms')
     return df

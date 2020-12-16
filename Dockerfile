@@ -1,4 +1,5 @@
 # ==================================================================================
+#  Copyright (c) 2019 AT&T Intellectual Property.
 #  Copyright (c) 2020 HCL Technologies Limited.
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,15 +33,9 @@ RUN conda install pandas
 RUN conda install -c conda-forge/label/cf202003 hdbscan
 RUN pip install schedule
 RUN conda install scikit-learn
-# RUN pip install -U scikit-learn
+#RUN pip install -U scikit-learn
 
-# Install
-COPY setup.py /tmp
-COPY LICENSE.txt /tmp/
-# RUN mkdir -p /tmp/ad/
-#COPY ad/ /tmp/ad
-COPY ad/ /ad
-RUN pip install /tmp
+COPY ad/ /tmp/ad
 ENV PYTHONUNBUFFERED 1
-CMD PYTHONPATH=/ad:/usr/lib/python3.7/site-packages/:$PYTHONPATH run-ad.py
-# CMD python -W ignore /tmp/ad/main.py
+CMD python -W ignore /tmp/ad/main.py 
+

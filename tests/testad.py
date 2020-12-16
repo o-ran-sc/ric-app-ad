@@ -13,10 +13,22 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 # ==================================================================================
-import pytest
+from ricxappframe.xapp_frame import Xapp
+#from ad import main
 
+def test_init_adxapp(monkeypatch):
 
-@pytest.fixture
-def ad_to_ts():
-    ad_to_ts_val = '[{"UEID": 12371, "MeasTimestampRF": "2020-11-25 16:14:25.140140"}]'
-    return ad_to_ts_val
+    # start ad
+    #main.predict()
+
+    # rmr send 30003(TS_ANOMALY_UPDATE), should trigger registered callback
+    
+    val = '[{"UEID": 12419, "MeasTimestampRF": "2020-11-11 13:28:25.135743"}]'
+    self.rmr_send(val, 30003)
+
+    # rmr receive to get the acknowledgement message from the traffic steering.
+    for (summary, sbuf) in self.rmr_get_messages():
+        print("TS_ANOMALY_ACK: {}".format(summary))
+        self.rmr_free(sbuf)
+    
+

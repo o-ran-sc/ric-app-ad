@@ -1,1 +1,1 @@
-# in __init__.py
+"ric_app_ad"

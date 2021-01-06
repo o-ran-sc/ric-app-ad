@@ -19,14 +19,21 @@ Need to update this file each time when there is any modifications in the follow
 
 main.py: 
 * Initiates xapp api and runs the entry() using xapp.run()
-* If RF model is not present in the path, run train() to train the model for the prediction.
-  Call predict function for every 1 second(for now as we are using simulated data).
-* Read the input csv file that has both normal and anomalous data.
-* Simulate diff UEIDs that participate in the anomaly by randomly selecting records from this scoring data set
-* Send the UEID and timestamp for the anomalous entries to the Traffic Steering (rmr with the message type as 30003)
-* Get the acknowledgement message from the traffic steering.
+* If hdbscan is not present in the current path, run train() to train the model for the prediction.
+* Call predict function to perform the following activities for every 1 second. 
+   a) Read the input csv file( 1000 UEID samples)
+   b) Predict the anomaly records for the randomly selected UEID
+   c) send the UEID and timestamp for the anomalous entries to the Traffic Steering (rmr with the message type as 30003)
+   d) Get the acknowledgement message from the traffic steering.
 
-ad_train.py - Read all the csv files in the current path and create trained model(RF)
+Note: Need to handle the logic if we do not get the acknowledgment from the TS.
+      How xapp api handle this logic
+
+ad_train.py - train hdbscan model using the input csv files and save the model. 
+
+dbscan: Model has been trained using the train dataset(train sampling for prediction)
+
+ue_test.csv: Input csv file has 1000 samples and for each UEID has one or more than one entries for poor signal.
 
 processing.py:
 It performs the following activities:
@@ -35,9 +42,11 @@ It performs the following activities:
 * verify and drop the highly correlated parameters.
 * returns UEID, timestamp and category for the anamolous entries.
 
+
 ad_model.py: 
 * Extract all the unique UEID and filters only the randomly selected UEID(this step will be removed when we implement in sdl way of getting the UEID).
 * Call Predict method to get the final data for the randomly selected UEID.
+
 
 tb_format.py:
 * start the preprocessing, processing steps using the keycolumns

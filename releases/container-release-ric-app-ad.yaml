@@ -1,0 +1,10 @@
+---
+distribution_type: container
+container_release_tag: 0.0.1
+container_pull_registry: nexus3.o-ran-sc.org:10004
+container_push_registry: nexus3.o-ran-sc.org:10002
+project: ric-app/ad
+ref: d3dff387ed728a6a74a236eb9b65d59d4929714a
+containers:
+    - name: ric-app-ad
+      version: 0.0.1

@@ -34,16 +34,16 @@ repositories:
     - ric-app/ad
 committers:
     - <<: *oran_ric_app_ad_ptl
-    - name: 'Akash Mishra'
-      email: 'akash.mi@hcl.com'
+    - name: 'Chandrasekaran Ramachandran'
+      email: 'chandrasekaran-r@hcl.com'
       company: 'HCL'
-      id: 'Akash_Mishra'
+      id: 'Chandru'
       timezone: 'Unknown/Unknown'
-    - name: 'Vaishali Sachdeva'
-      email: 'vaishali.sachdeva@hcl.com'
-      company: 'HCL'
-      id: 'VaishaliSachdeva'
-      timezone: 'Unknown/Unknown'
+    - name: 'Matti Hiltunen'
+      email: 'hiltunen@research.att.com'
+      company: 'AT&T Labs-Research'
+      id: 'MattiHiltunen'
+      timezone: 'America/New_York'
 tsc:
     # yamllint disable rule:line-length
     approval: 'https://lists.o-ran-sc.org/g/toc/message/303'

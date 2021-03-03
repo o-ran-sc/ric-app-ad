@@ -16,7 +16,7 @@
 
 
 Anomaly Detection Overview
-======================
+==========================
 
 Anomaly Detection (AD) is an Xapp in the Traffic Steering O-RAN use case,
 which uses the following Xapps:
@@ -27,11 +27,11 @@ which uses the following Xapps:
 Expected Input
 --------------
 
-The AD Xapp expects a prediction-input in following structure::
+The AD Xapp expects a prediction-input in following structure:
 
-UEPDCPBytesDL	UEPDCPBytesUL	UEPRBUsageDL	UEPRBUsageUL	S_RSRP	S_RSRQ	  S_SINR	N1_RSRP	  N1_RSRQ	N1_SINR	  N2_RSRP	N2_RSRQ	  N2_SINR	UEID	ServingCellID		N1	      N2	 MeasTimestampRF
+UEPDCPBytesDL  UEPDCPBytesUL  UEPRBUsageDL  UEPRBUsageUL  S_RSRP  S_RSRQ  S_SINR  N1_RSRP  N1_RSRQ  N1_SINR  N2_RSRP  N2_RSRQ  N2_SINR  UEID  ServingCellID     N1      N2      MeasTimestampRF
 
-	300000			123000			25				10			-43		-3.4		25		-53			-6.4	  20		-68		-9.4		17		12345		555011		  555010	 555012	    30:17.8
+  300000         123000 	  25		10	   -43     -3.4     25	    -5	    -6.4      20       -68	-9.4      17	12345	  555011      555010   555012       30:17.8
 	
 
 Expected Output

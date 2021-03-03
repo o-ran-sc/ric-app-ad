@@ -1,0 +1,8 @@
+Verified+1: ORAN Jobbuilder <releng+oran-jobbuilder@linuxfoundation.org>
+Code-Review+1: Matti Hiltunen <hiltunen@att.com>
+Code-Review+2: Chandrasekaran Ramachandran <chandrasekaran-r@hcl.com>
+Submitted-by: Chandrasekaran Ramachandran <chandrasekaran-r@hcl.com>
+Submitted-at: Wed, 03 Mar 2021 14:21:18 +0000
+Reviewed-on: https://gerrit.o-ran-sc.org/r/c/ric-app/ad/+/5711
+Project: ric-app/ad
+Branch: refs/heads/master

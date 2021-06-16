@@ -14,9 +14,18 @@
 #   limitations under the License.
 # ==================================================================================
 import pytest
+import pandas as pd
 
 
 @pytest.fixture
 def ad_to_ts():
-    ad_to_ts_val = '[{"UEID": 12371, "MeasTimestampRF": "2020-11-25 16:14:25.140140"}]'
+    ad_to_ts_val = '[{"du-id": 1006, "ue-id": "Car-1", "measTimeStampRf": 1620832626630, "Degradation": "RSRP"}]'
     return ad_to_ts_val
+
+
+@pytest.fixture
+def ad_ue():
+    time = pd.to_datetime("2021-05-12T07:43:51.652")
+    ad_ue_val = [1002, "c2/B13", 8, 69, 65, 113, 0.1, 0.1, "Waiting passenger 9", -882, -959, time]
+
+    return ad_ue_val

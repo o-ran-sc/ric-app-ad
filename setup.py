@@ -22,7 +22,7 @@ setup(
     packages=find_packages(exclude=["tests.*", "tests"]),
     description="Anomaly Detection xApp that integrates with Traffic Steering",
     url="https://gerrit.o-ran-sc.org/r/admin/repos/ric-app/ad",
-    install_requires=["ricxappframe>=1.1.1,<2.0.0", "pandas>=1.1.3", "joblib>=0.3.2", "Scikit-learn>=0.21", "schedule>=0.0.0", "hdbscan>=0.8.13"],
+    install_requires=["ricxappframe>=1.1.1,<2.0.0", "pandas>=1.1.3", "joblib>=0.3.2", "Scikit-learn>=0.21", "schedule>=0.0.0", "influxdb", "pyod"],
     entry_points={"console_scripts": ["run-ad.py=ad.main:start"]},  # adds a magical entrypoint for Docker
     license="Apache 2.0",
     data_files=[("", ["LICENSE.txt"])],

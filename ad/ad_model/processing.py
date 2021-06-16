@@ -1,22 +1,73 @@
+# ==================================================================================
+#  Copyright (c) 2020 HCL Technologies Limited.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+# ==================================================================================
+
 import pandas as pd
 import numpy as np
 import joblib
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import Normalizer
 
 
-class preprocess(object):
+class PREPROCESS(object):
+    r""" This PREPROCESS class takes raw data and apply prepocessing on to that.
+
+    Parameters
+    ----------
+    data: json or pandas dataframe
+        input dataset to process in json format or pandas dataframe
+
+    Attributes
+    ----------
+    data: DataFrame
+        DataFrame that has processed data
+    temp: list
+        list of attributes to drop
+    """
 
     def __init__(self, data):
         """
            Columns that are not useful for the prediction will be dropped(UEID, Category, & Timestamp)
         """
-        self.id = data.UEID
-        self.time = data.MeasTimestampRF
-        self.data = data.drop(['UEID', 'MeasTimestampRF'], axis=1)
+        self.temp = None
+        self.data = self.check_type(data)
+
+    def check_type(self, df):
+        cols = [col for col in df.columns if isinstance(df.iloc[0][col], dict) or isinstance(df.iloc[0][col], list)]
+        if 'neighbourCellList' in cols:
+            cols.remove('neighbourCellList')
+            df = df.drop('neighbourCellList', axis=1)
+
+        if len(cols) == 0:
+            return df
+
+        for col in cols:
+            if isinstance(df.iloc[0][col], list):
+                df = df.explode(col)
+            d = df[col].apply(pd.Series)
+            if 0 in d.columns:
+                d = d.drop(0, axis=1)
+
+            df[d.columns] = d
+            df = df.drop(col, axis=1)
+            df.index = range(len(df))
+        return self.check_type(df)
 
     def variation(self):
         """ drop the constant parameters """
-        self.data = self.data.loc[:, self.data.apply(pd.Series.nunique) != 1]
+        if len(self.data) > 1:
+            self.data = self.data.loc[:, self.data.apply(pd.Series.nunique) != 1]
 
     def numerical_data(self):
         """  Filters only numeric data types """
@@ -38,20 +89,22 @@ class preprocess(object):
     # otherwise use standardization
     def transform(self):
         """ use log transform for skewed data """
-        scale = StandardScaler()
+        scale = Normalizer()  # StandardScaler()
         data = scale.fit_transform(self.data)
         self.data = pd.DataFrame(data, columns=self.data.columns)
-        joblib.dump(scale, 'ad/scale')
+        joblib.dump(scale, 'scale')
 
     def process(self):
         """
           Calls the modules for the data preprocessing like dropping columns, normalization etc.,
         """
+        temp = ['du-id', 'measTimeStampRf', 'ue-id', 'nrCellIdentity', 'targetTput', 'x', 'y']
+        if set(temp).issubset(self.data.columns):
+            self.temp = self.data[temp]
+            self.data = self.data.drop(temp, axis=1)
         self.numerical_data()
         self.drop_na()
         self.variation()
-#        self.correlation()
+        self.correlation()
         self.transform()
-        self.data.loc[:, 'UEID'] = self.id
-        self.data.loc[:, 'MeasTimestampRF'] = self.time
         return self.data

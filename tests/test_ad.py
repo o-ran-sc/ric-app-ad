@@ -22,12 +22,12 @@ import json
 
 
 def test_RFtrainmodel(monkeypatch):
-    if not os.path.isfile('ad/RF'):
+    if not os.path.isfile('model'):
         train()
 
 
-def test_predict_anomaly(monkeypatch):
-    main.predict_anomaly('test')
+def test_predict_anomaly(monkeypatch, ad_ue):
+    main.predict_anomaly(ad_ue)
 
 
 def test_msg_to_ts(monkeypatch, ad_to_ts):

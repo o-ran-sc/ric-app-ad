@@ -23,6 +23,10 @@ The format is based on `Keep a Changelog <http://keepachangelog.com/>`__
 and this project adheres to `Semantic Versioning <http://semver.org/>`__.
 
 
+[0.0.2] - 2021-06-24
+--------------------
+* Release version 0.0.2 (`RICAPP-142 <https://jira.o-ran-sc.org/browse/RICAPP-142>`_)
+
 [0.0.1] - 2020-08-11
 --------------------
 * Initial mock version (`RICAPP-142 <https://jira.o-ran-sc.org/browse/RICAPP-142>`_)

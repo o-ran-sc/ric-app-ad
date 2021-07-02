@@ -15,58 +15,102 @@
 # ==================================================================================
 
 import joblib
-import random
-import json
+from database import DATABASE
 
 
 class modelling(object):
+    r""" Filter dataframe based on paramters that were used to train model
+    use transormer to transform the data
+    load model and predict the label(normal/anomalous)
+
+    Parameters:
+    data:DataFrame
+    """
+
     def __init__(self, data):
-        """ Separating UEID and timestamp features to be mapped later after prediction  """
-        self.time = data.MeasTimestampRF
-        self.id = data.UEID
-        self.data = data.drop(['UEID', 'MeasTimestampRF'], axis=1)
+
+        with open('params', 'rb') as f:
+            cols = joblib.load(f)
+        if all(cols.isin(data.columns)):
+            self.data = data[cols]
+        else:
+            print(data.columns, cols)
+
+        self.transformation()
+
+    def transformation(self):
+        """ load transformer to transform data """
+
+        sc = joblib.load('scale')
+        self.data = sc.transform(self.data)
 
     def predict(self, name):
+        """ Load the saved model and return predicted result.
+        Parameters
+        .........
+        name:str
+            name of model
+
+        Return
+        ......
+        pred:int
+            predict label on a given sample
+
         """
-           Load the saved model and map the predicted category into Category field.
-           Map UEID, MeasTimestampRF with the predicted result.
-        """
-        model = joblib.load('ad/' + name)
+
+        model = joblib.load(name)
         pred = model.predict(self.data)
-        data = self.data.copy()
-        le = joblib.load('ad/LabelEncoder')
-        data['Category'] = le.inverse_transform(pred)
-        data['MeasTimestampRF'] = self.time
-        data['UEID'] = self.id
-        return data
+        return pred
 
 
-def compare(df):
+class Cause:
+    r""""Rule basd method to find degradation type of anomalous sample
+
+    Attributes:
+    normal:DataFrame
+        Dataframe that contains only normal sample
     """
-     If the category of UEID is present in the segment file, it is considered as normal(0)
-     otherwise, the sample is considered as anomaly.
-    """
-    with open("ad/ue_seg.json", "r") as json_data:
-        segment = json.loads(json_data.read())
-    anomaly = []
-    for i in df.index:
-        if df.loc[i, 'Category'] in segment[str(df.loc[i, 'UEID'])]:
-            anomaly.append(0)
+
+    def __init__(self):
+        db = DATABASE('UEData')
+        db.read_data('train')
+        self.normal = db.data[['rsrp', 'rsrq', 'rssinr', 'throughput', 'prb_usage', 'ue-id']]
+
+    def cause(self, sample):
+        """ Filter normal data for a particular ue-id to compare with a given sample
+            Compare with normal data to find and return degradaton type
+        """
+        normal = self.normal[self.normal['ue-id'] == sample.iloc[0]['ue-id']].drop('ue-id', axis=1)
+        param = self.find(sample, normal.max())
+        return param
+
+    def find(self, sample, Range):
+        """ store if a particular parameter is below threshold and return """
+
+        deg = []
+        if sample.iloc[0]['throughput'] < Range['throughput']*0.5:
+            deg.append('Throughput')
+        if sample.iloc[0]['rsrp'] <= Range['rsrp']-20:
+            deg.append('RSRP')
+        if sample.iloc[0]['rsrq'] <= Range['rsrq']-20:
+            deg.append('RSRQ')
+        if sample.iloc[0]['rssinr'] <= Range['rssinr']-25:
+            deg.append('RSSINR')
+        if sample.iloc[0]['prb_usage'] <= Range['prb_usage']*0.5:
+            deg.append('prb_usage')
+        if len(deg) == 0:
+            deg = False
         else:
-            anomaly.append(1)
-    return anomaly
+            deg = ' '.join(deg)
+        return deg
 
 
-def HDB_PREDICT(df):
+def ad_predict(df):
     """
-        Extract all the unique UEID
-        Call Predict method to get the final data for the randomly selected UEID
+        Call Predict method to predict whether a given sample is normal or anomalous
     """
-    ue_list = df.UEID.unique()  # Extract unique UEIDs
-    ue = random.choice(ue_list)  # Randomly selected the ue list
-    df = df[df['UEID'] == ue]
+
     db = modelling(df)
-    db_df = db.predict('RF')  # Calls predict module and store the result into db_df
+    db_df = db.predict('model')  # Calls predict module and store the result into db_df
     del db
-    db_df['Anomaly'] = compare(db_df)
     return db_df

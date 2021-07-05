@@ -21,13 +21,18 @@ from ad.ad_train import train
 import json
 
 
-def test_RFtrainmodel(monkeypatch):
-    if not os.path.isfile('ad/RF'):
-        train()
+def test_database_connection(monkeypatch):
+    # start qp
+    main.connectdb(thread=True)
 
 
-def test_predict_anomaly(monkeypatch):
-    main.predict_anomaly('test')
+def test_trainModel(monkeypatch):
+    if not os.path.isfile('model'):
+        train(thread=True)
+
+
+def test_predict_anomaly(monkeypatch, ad_ue):
+    main.predict_anomaly(monkeypatch, ad_ue)
 
 
 def test_msg_to_ts(monkeypatch, ad_to_ts):

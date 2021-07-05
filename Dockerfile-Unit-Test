@@ -28,14 +28,7 @@ COPY --from=nexus3.o-ran-sc.org:10002/o-ran-sc/bldr-alpine3-rmr:4.0.5 /usr/local
 
 # Upgrade pip, install tox
 RUN pip install --upgrade pip && pip install tox
-
 RUN apk update && apk add gcc musl-dev
-RUN pip install ricxappframe
-RUN conda update -n base -c defaults conda
-RUN conda install -c anaconda pandas
-RUN conda install -c conda-forge/label/cf202003 hdbscan
-RUN pip install schedule
-RUN conda install scikit-learn
 
 # copies
 COPY setup.py tox.ini LICENSE.txt /tmp/

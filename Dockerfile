@@ -27,12 +27,6 @@ ENV RMR_SEED_RT /opt/route/local.rt
 
 RUN apk update && apk add gcc musl-dev
 RUN pip install ricxappframe
-RUN conda update -n base -c defaults conda
-RUN conda install pandas
-RUN conda install -c conda-forge/label/cf202003 hdbscan
-RUN pip install schedule
-RUN conda install scikit-learn
-# RUN pip install -U scikit-learn
 
 # Install
 COPY setup.py /tmp

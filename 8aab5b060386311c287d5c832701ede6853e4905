@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da5b6e74_2006bf52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000971
+      },
+      "writtenOn": "2021-07-06T15:18:04Z",
+      "side": 1,
+      "message": "Updated Release(version 0.0.2) file for AD.\n\nKindly review and commit!",
+      "revId": "8aab5b060386311c287d5c832701ede6853e4905",
+      "serverId": "84e4e190-e623-4c37-9eda-58b1937c1b53"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d67542cf_050684ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000971
+      },
+      "writtenOn": "2021-07-06T08:01:09Z",
+      "side": 1,
+      "message": "Release version 0.0.2 (Dawn),\nKindly review and merge!",
+      "revId": "91624d7cb4a7283e76fd591f38b1967c4914a5eb",
+      "serverId": "84e4e190-e623-4c37-9eda-58b1937c1b53"
+    }
+  ]
+}

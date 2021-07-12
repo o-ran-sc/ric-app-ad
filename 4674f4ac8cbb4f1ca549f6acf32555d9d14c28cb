@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0112537b_7ab5daa2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000971
+      },
+      "writtenOn": "2021-07-12T09:08:39Z",
+      "side": 1,
+      "message": "[RICAPP-173] AD xApp Release version 0.0.2 (Dawn)",
+      "revId": "4674f4ac8cbb4f1ca549f6acf32555d9d14c28cb",
+      "serverId": "84e4e190-e623-4c37-9eda-58b1937c1b53"
+    }
+  ]
+}

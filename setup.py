@@ -18,12 +18,12 @@ from setuptools import setup, find_packages
 
 setup(
     name="ad",
-    version="0.0.2",
+    version="1.0.0",
     packages=find_packages(exclude=["tests.*", "tests"]),
     description="Anomaly Detection xApp that integrates with Traffic Steering",
     url="https://gerrit.o-ran-sc.org/r/admin/repos/ric-app/ad",
-    install_requires=["ricxappframe>=1.1.1,<2.0.0", "pandas>=1.1.3", "joblib>=0.3.2", "Scikit-learn>=0.21", "schedule>=0.0.0", "influxdb"],
-    entry_points={"console_scripts": ["run-ad.py=ad.main:start"]},  # adds a magical entrypoint for Docker
+    install_requires=["ricxappframe>=1.1.1,<2.0.0", "pandas>=1.1.3", "joblib>=0.3.2", "Scikit-learn>=0.18", "mdclogpy<=1.1.1", "schedule>=0.0.0", "influxdb"],
+    entry_points={"console_scripts": ["run-src.py=src.main:start"]},  # adds a magical entrypoint for Docker
     license="Apache 2.0",
     data_files=[("", ["LICENSE.txt"])],
 )

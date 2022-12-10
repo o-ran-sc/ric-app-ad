@@ -13,25 +13,23 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 # ==================================================================================
-from ad import main
+import json
+from src import main
 from ricxappframe.xapp_frame import Xapp
 from contextlib import suppress
-import os
-from ad.ad_train import train
-import json
 
 
 def test_database_connection(monkeypatch):
-    # start qp
+    # start ad
     main.connectdb(thread=True)
 
 
 def test_trainModel(monkeypatch):
-    if not os.path.isfile('model'):
-        train(thread=True)
+    main.train_model()
 
 
 def test_predict_anomaly(monkeypatch, ad_ue):
+    main.load_model()
     main.predict_anomaly(monkeypatch, ad_ue)
 
 

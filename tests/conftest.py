@@ -25,6 +25,6 @@ def ad_to_ts():
 
 @pytest.fixture
 def ad_ue():
-    ad_ue_val = pd.DataFrame([[1002, "c2/B13", 8, 69, 65, 113, 0.1, 0.1, "Waiting passenger 9", -882, -959, pd.to_datetime("2021-05-12T07:43:51.652")]], columns=["du-id", "ServingCellId", "prb_usage", "rsrp", "rsrq", "rssinr", "TargetTput", "throughput", "ue-id", "x", "y", "measTimeStampRf"])
+    ad_ue_val = pd.DataFrame([[1002, "c2/B13", 8, 69, 65, 113, 0.1, 0.1, "Waiting passenger 9", -882, -959, pd.to_datetime("2021-05-12T07:43:51.652")]], columns=["du-id", "ServingCellId", "RRU.PrbUsedDl", "RF.serving.RSRP", "RF.serving.RSRQ", "RF.serving.RSSINR", "TargetTput", "DRB.UEThpDl", "ue-id", "x", "y", "measTimeStampRf"])
 
     return ad_ue_val

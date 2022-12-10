@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03561a9e_711269fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000971
+      },
+      "writtenOn": "2022-12-10T13:37:32Z",
+      "side": 1,
+      "message": "New version of AD xApp (G-Release). Kindly review and merge.\n\n",
+      "revId": "77f7c38a2133e3ca11582a217762802d1a14c8fa",
+      "serverId": "84e4e190-e623-4c37-9eda-58b1937c1b53"
+    }
+  ]
+}

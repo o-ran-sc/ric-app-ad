@@ -14,7 +14,7 @@
 #   limitations under the License.
 # ==================================================================================
 
-FROM frolvlad/alpine-miniconda3
+FROM frolvlad/alpine-miniconda3:python3.7
 # FROM python:3.8-alpine
 
 # RMR setup
@@ -32,10 +32,9 @@ RUN apk update && apk add gcc musl-dev
 
 # copies
 COPY setup.py tox.ini LICENSE.txt /tmp/
-COPY ad/ /tmp/ad
-COPY tests/ /tmp/tests
 RUN pip install /tmp
-
+COPY src/ /tmp/src
+COPY tests/ /tmp/tests
 # Run the unit tests
 WORKDIR /tmp 
-RUN PYTHONPATH=/tmp/ad:/usr/lib/python3.7/site-packages/:$PYTHONPATH tox -e code,flake8
+RUN PYTHONPATH=/tmp/src:/usr/lib/python3.7/site-packages/:$PYTHONPATH tox -e code,flake8

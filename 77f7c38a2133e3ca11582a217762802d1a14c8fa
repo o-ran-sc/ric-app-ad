@@ -16,6 +16,24 @@
       "message": "New version of AD xApp (G-Release). Kindly review and merge.\n\n",
       "revId": "77f7c38a2133e3ca11582a217762802d1a14c8fa",
       "serverId": "84e4e190-e623-4c37-9eda-58b1937c1b53"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdc27c70_6725c94e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000971
+      },
+      "writtenOn": "2022-12-10T13:39:17Z",
+      "side": 1,
+      "message": "kindly find more details here: https://jira.o-ran-sc.org/browse/RICAPP-204",
+      "parentUuid": "03561a9e_711269fc",
+      "revId": "77f7c38a2133e3ca11582a217762802d1a14c8fa",
+      "serverId": "84e4e190-e623-4c37-9eda-58b1937c1b53"
     }
   ]
 }

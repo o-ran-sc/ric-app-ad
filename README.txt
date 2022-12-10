@@ -15,46 +15,38 @@
 # ==================================================================================
 
 Usage of all the programs and files have been mentioned below for the reference.
-For AD xapp we require ueMeasReport(UE related dataset)
+For AD xapp we require UEReport (UE related dataset)
 
 AD xApp expect UE data from influxDB database in following structure:
-	* There exists database with name "UEData"
-	* Inside "UEData" database we have three measurments namely "liveUE", "train", "valid"
+	* There exists database with name "RIC-Test"
+	* Inside "RIC-Test" database we have measurments namely "UEReports"
 	
-Note: *We need to specify influxdb service ruuning in RIC platform in database.py(host = <service name>.<namespace>)
-	  *InfluxDB will be populated when xApp starts via insert.py. This will be depreciated in next release when there will be data coming from KPIMON
-	
-Need to update this file each time when there is any modifications in the following components. 
+Note: *We need to update ad_config.ini with influxdb configuration. 
+Update host as one of the following:
+	1. influxdb service ruuning in RIC platform (host = <service name>.<namespace>) 
+	   OR IP of influxdb pod
+	2. Update user and password for influxDB instance
 
-main.py: 
-* Initiates xapp api, populated influxDB with data and runs the entry() using xapp.run()
-* If Model is not present in the current path, run train() to train the model for the prediction.
-* Call predict function to perform the following activities for every 10 milisecond. 
-   a) Currently read the input from "liveUE" measurments and iterate through it. (Needs to update: To iterate every 10 miliseconds and fetch latest sample from influxDB) 
-   b) Detect anomalous records for the inputs
-   c) send the UEID, DU-ID, Degradation type and timestamp for the anomalous records to the Traffic Steering (via rmr with the message type as 30003)
-   d) Get the acknowledgement message from the traffic steering 
+To polpulate influxdb with static data provided in .csv (ue.csv). 
+	1. Run "python3 insert.py"
+	2. Wait for few minutes before deploying AD xApp
+	Note: This will be depreciated in next release when there will be data coming from KPIMON
+	
+
+AD xApp performs following:
+
+* Initiates xapp api, make connection with influxDB and runs the entry() using xapp.run()
+* If Model is not present in the current path, 
+   a) Read history data from InfluxDB
+   b) apply pre-processing steps
+   c) trigger Training of ML model.
+   d) after model validation, save transformation, model artifacts
+* Detect anomalous user in real-time. 
+   a) Read live data from influxDB every 0.5 second
+   b) Detect anomalous records on given input
+   c) Investigate degradation type for anomalous users
+* send the ue-id, DU-ID, Degradation type and timestamp for the anomalous records to the Traffic Steering (via rmr with the message type as 30003)
+* Get the acknowledgement message from the traffic steering 
+* store xApp result in "AD" measurement of influxDB
 
 Note: Need to implement the logic if we do not get the acknowledgment from the TS. (How xapp api handle this?)
-
-ad_train.py - Fetch "train" and "valid"(labelled dataset) measurments from influxDB for build and testing Isolation Forest model. Save final model. 
-			  
-	Model: Model has been trained using history data feteched from influxdb for all UE's 
-	validation: we need to have smaller sample dataset(labelled) for validation in influxDB for model validation.
-
-processing.py:
-It performs the following activities:
-* Columns that are not useful for the prediction will be dropped(UEID, Category, & Timestamp)
-* Filetered numeric data type(as per problem need)
-* verify and drop the highly correlated parameters
-* Use Transformation for makine all parameters in same scale and saved transformer info.
-* returns remaining parameters required for training and testing
-
-
-ad_model.py: 
-* Call Predict method to get the anomalous users and send information related to anomalous user to Traffic steering xapp
-
-database.py
-* This module creates connection to influxDB and have methods to read and write data into influxDB
-
-

@@ -13,7 +13,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ==================================================================================
-FROM frolvlad/alpine-miniconda3
+FROM frolvlad/alpine-miniconda3:python3.7
 # RMR setup
 RUN mkdir -p /opt/route/
 
@@ -26,13 +26,14 @@ COPY local.rt /opt/route/local.rt
 ENV RMR_SEED_RT /opt/route/local.rt
 
 RUN apk update && apk add gcc musl-dev
-RUN pip install ricxappframe
 
 # Install
 COPY setup.py /tmp
 COPY LICENSE.txt /tmp/
 # RUN mkdir -p /tmp/ad/
-COPY ad/ /ad
 RUN pip install /tmp
+RUN pip install ricxappframe
+RUN pip install --force-reinstall redis==3.0.1
 ENV PYTHONUNBUFFERED 1
-CMD PYTHONPATH=/ad:/usr/lib/python3.7/site-packages/:$PYTHONPATH run-ad.py
+COPY src/ /src
+CMD PYTHONPATH=/src:/usr/lib/python3.7/site-packages/:$PYTHONPATH run-src.py

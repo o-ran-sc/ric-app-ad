@@ -1,13 +1,13 @@
 {
         "xapp_name": "ad",
-        "version": "0.0.2",
+        "version": "1.0.0",
         "containers": [
             {
                 "name": "ad",
                 "image": {
                     "registry": "nexus3.o-ran-sc.org:10002",
                     "name": "o-ran-sc/ric-app-ad",
-                    "tag": "0.0.2"
+                    "tag": "1.0.0"
                 }
             }
         ],

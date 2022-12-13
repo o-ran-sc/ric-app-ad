@@ -1,0 +1,9 @@
+Verified+1: ORAN Jobbuilder <releng+oran-jobbuilder@linuxfoundation.org>
+Verified+1: Matti Hiltunen <hiltunen@att.com>
+Code-Review+1: Matti Hiltunen <hiltunen@att.com>
+Code-Review+2: Deepanshu Karnwal <deepanshu.k@hcl.com>
+Submitted-by: Deepanshu Karnwal <deepanshu.k@hcl.com>
+Submitted-at: Tue, 13 Dec 2022 12:08:14 +0000
+Reviewed-on: https://gerrit.o-ran-sc.org/r/c/ric-app/ad/+/10049
+Project: ric-app/ad
+Branch: refs/heads/master

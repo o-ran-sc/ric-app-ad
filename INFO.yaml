@@ -4,10 +4,10 @@ project_creation_date: '2020-08-17'
 project_category: ''
 lifecycle_state: 'Incubation'
 project_lead: &oran_ric_app_ad_ptl
-    name: 'Deepanshu Karnwal'
-    email: 'deepanshu.k@hcl.com'
+    name: 'Sunil Singh'
+    email: 'singh.sunil@hcl.com'
     company: 'HCL'
-    id: 'deepanshuk'
+    id: 'singh.sunil'
     timezone: 'Unknown/Unknown'
 primary_contact: *oran_ric_app_ad_ptl
 issue_tracking:
@@ -34,10 +34,20 @@ repositories:
     - ric-app/ad
 committers:
     - <<: *oran_ric_app_ad_ptl
-    - name: 'Chandrasekaran Ramachandran'
-      email: 'chandrasekaran-r@hcl.com'
+    - name: 'Deepanshu Karnwal'
+      email: 'deepanshu.k@hcl.com'
       company: 'HCL'
-      id: 'Chandru'
+      id: 'deepanshuk'
+      timezone: 'Unknown/Unknown'
+	- name: 'Amit Srivastava'
+      email: 'amitsriv@hcl.com'
+      company: 'HCL'
+      id: 'amit.sarnath'
+      timezone: 'Unknown/Unknown'
+	- name: 'Sandeep Kumar'
+      email: 'kumar.sandeep3@hcl.com'
+      company: 'HCL'
+      id: 'sandeepindia'
       timezone: 'Unknown/Unknown'
     - name: 'Matti Hiltunen'
       email: 'hiltunen@research.att.com'

@@ -16,6 +16,23 @@
       "message": "Pushed version 1.0.0\n\nkindly review and merge",
       "revId": "e10de5336458c402b699914f430ed198c09b3141",
       "serverId": "84e4e190-e623-4c37-9eda-58b1937c1b53"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48ddc540_25c88675",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001415
+      },
+      "writtenOn": "2022-12-19T08:51:45Z",
+      "side": 1,
+      "message": "looks good to me",
+      "revId": "e10de5336458c402b699914f430ed198c09b3141",
+      "serverId": "84e4e190-e623-4c37-9eda-58b1937c1b53"
     }
   ]
 }

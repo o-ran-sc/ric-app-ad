@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72933cf3_ce4fbc85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000971
+      },
+      "writtenOn": "2022-12-19T14:56:44Z",
+      "side": 1,
+      "message": "Pushed Fix for [RICAPP-208]\n\nKindly review and merge.",
+      "revId": "5da0637daa11fc09c2980efad7f116ef2a537be8",
+      "serverId": "84e4e190-e623-4c37-9eda-58b1937c1b53"
+    }
+  ]
+}

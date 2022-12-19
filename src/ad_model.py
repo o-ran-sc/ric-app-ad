@@ -99,7 +99,7 @@ class CAUSE(object):
         sample.index = range(len(sample))
         for i in range(len(sample)):
             if sample.iloc[i]['Anomaly'] == 1:
-                query = 'select * from {} where {} = \'{}\' and time<now() and time>now()-20s'.format(db.meas, db.ue, sample.iloc[i][db.ue])
+                query = """select * from "{}" where {} = \'{}\' and time<now() and time>now()-20s""".format(db.meas, db.ue, sample.iloc[i][db.ue])
                 normal = db.query(query)
                 if normal:
                     normal = normal[db.meas][[db.thpt, db.rsrp, db.rsrq]]

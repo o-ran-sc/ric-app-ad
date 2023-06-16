@@ -18,8 +18,11 @@
 
 # FORK ADDITION:
 Run the monitoring python xApp to generate a .db file to be used for offline training of the AD xApp.
+
 TODO: 
+
 -Include C support to enable KPM monitoring, which is native to the AD app.
+
 -Adapt our monitoring xApp to image-based deployment.
 
 # Original README

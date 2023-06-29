@@ -91,7 +91,7 @@ class CAUSE(object):
     def __init__(self):
         self.normal = None
 
-    def cause(self, df, db):
+    def cause(self, df, db, threshold):
         """ Filter normal data for a particular ue-id to compare with a given sample
             Compare with normal data to find and return degradaton type
         """
@@ -99,11 +99,11 @@ class CAUSE(object):
         sample.index = range(len(sample))
         for i in range(len(sample)):
             if sample.iloc[i]['Anomaly'] == 1:
-                query = """select * from "{}" where {} = \'{}\' and time<now() and time>now()-20s""".format(db.meas, db.ue, sample.iloc[i][db.ue])
+                query = """select * from {} where "{}" = \'{}\' and time<now() and time>now()-20s""".format(db.meas, db.ue, sample.iloc[i][db.ue])
                 normal = db.query(query)
                 if normal:
                     normal = normal[db.meas][[db.thpt, db.rsrp, db.rsrq]]
-                    deg = self.find(sample.loc[i, :], normal.max(), db)
+                    deg = self.find(sample.loc[i, :], normal.max(), db, threshold)
                     if deg:
                         sample.loc[i, 'Degradation'] = deg
                         if 'Throughput' in deg and ('RSRP' in deg or 'RSRQ' in deg):
@@ -112,10 +112,10 @@ class CAUSE(object):
                         sample.loc[i, 'Anomaly'] = 0
         return sample[['Anomaly', 'Degradation']].values.tolist()
 
-    def find(self, row, l, db):
+    def find(self, row, l, db, threshold):
         """ store if a particular parameter is below threshold and return """
         deg = []
-        if row[db.thpt] < l[db.thpt]*0.5:
+        if row[db.thpt] < l[db.thpt]*(100 - threshold)*0.01:
             deg.append('Throughput')
         if row[db.rsrp] < l[db.rsrp]-15:
             deg.append('RSRP')

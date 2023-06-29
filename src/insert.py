@@ -31,8 +31,8 @@ class INSERTDATA(DATABASE):
         super().__init__()
         self.config()
         self.connect()
-        self.dropdb('RIC-Test')
-        self.createdb('RIC-Test')
+#        self.dropdb('RIC-Test')
+#        self.createdb('RIC-Test')
 
     def config(self):
         cfg = ConfigParser()
@@ -67,7 +67,7 @@ class INSERTDATA(DATABASE):
             d = df[df['measTimeStampRf'] == timestamp]
             d.index = pd.date_range(start=datetime.datetime.now(), freq='1ms', periods=len(d))
             self.client.write_points(d, self.meas)
-            time.sleep(0.4)
+            time.sleep(0.7)
 
 
 def populatedb():

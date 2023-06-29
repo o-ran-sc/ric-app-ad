@@ -139,6 +139,7 @@ class DATABASE(object):
                 self.prb = cfg.get(section, "prb_usage")
                 self.ue = cfg.get(section, "ue")
                 self.anomaly = cfg.get(section, "anomaly")
+                self.a1_param = cfg.get(section, "a1_param")
 
 
 class DUMMY(DATABASE):

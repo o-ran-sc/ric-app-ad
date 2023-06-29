@@ -45,7 +45,9 @@ AD xApp performs following:
    a) Read live data from influxDB every 0.5 second
    b) Detect anomalous records on given input
    c) Investigate degradation type for anomalous users
-* send the ue-id, DU-ID, Degradation type and timestamp for the anomalous records to the Traffic Steering (via rmr with the message type as 30003)
+* Listens to RMR port for A1 policy (message type 20011) in a format given below. Which consists throughput threshold parameter (default: 70%) for an degradataion event to qualify for a handover
+   {'operation': 'CREATE', 'payload': '{\"thp_threshold\":74}', 'policy_instance_id': 'demo-1', 'policy_type_id': '9997'}"}
+* Send the ue-id, DU-ID, Degradation type and timestamp for the qualified anomalous records to the Traffic Steering (via rmr with the message type as 30003)
 * Get the acknowledgement message from the traffic steering 
 * store xApp result in "AD" measurement of influxDB
 

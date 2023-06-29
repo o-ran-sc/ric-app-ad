@@ -18,7 +18,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="ad",
-    version="1.0.0",
+    version="1.0.1",
     packages=find_packages(exclude=["tests.*", "tests"]),
     description="Anomaly Detection xApp that integrates with Traffic Steering",
     url="https://gerrit.o-ran-sc.org/r/admin/repos/ric-app/ad",

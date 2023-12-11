@@ -13,27 +13,28 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ==================================================================================
-FROM frolvlad/alpine-miniconda3:python3.7
+FROM continuumio/miniconda3:23.10.0-1
 # RMR setup
 RUN mkdir -p /opt/route/
 
-# copy rmr files from builder image in lieu of an Alpine package
-COPY --from=nexus3.o-ran-sc.org:10002/o-ran-sc/bldr-alpine3-rmr:4.0.5 /usr/local/lib64/librmr* /usr/local/lib64/
+ARG RMRVERSION=4.9.0
+RUN wget --content-disposition https://packagecloud.io/o-ran-sc/release/packages/debian/stretch/rmr_${RMRVERSION}_amd64.deb/download.deb && dpkg -i rmr_${RMRVERSION}_amd64.deb
+RUN wget --content-disposition https://packagecloud.io/o-ran-sc/release/packages/debian/stretch/rmr-dev_${RMRVERSION}_amd64.deb/download.deb && dpkg -i rmr-dev_${RMRVERSION}_amd64.deb
+RUN rm -f rmr_${RMRVERSION}_amd64.deb rmr-dev_${RMRVERSION}_amd64.deb
 
-COPY --from=nexus3.o-ran-sc.org:10002/o-ran-sc/bldr-alpine3-rmr:4.0.5 /usr/local/bin/rmr* /usr/local/bin/
-ENV LD_LIBRARY_PATH /usr/local/lib/:/usr/local/lib64
+RUN apt-get update && apt-get -y install g++ vim
+
+ENV LD_LIBRARY_PATH=/usr/local/lib/:/usr/local/lib64
+ENV C_INCLUDE_PATH=/usr/local/include
 COPY local.rt /opt/route/local.rt
 ENV RMR_SEED_RT /opt/route/local.rt
-
-RUN apk update && apk add gcc musl-dev
 
 # Install
 COPY setup.py /tmp
 COPY LICENSE.txt /tmp/
-# RUN mkdir -p /tmp/ad/
 RUN pip install /tmp
 RUN pip install ricxappframe
-RUN pip install --force-reinstall redis==3.0.1
 ENV PYTHONUNBUFFERED 1
+ENV CONFIG_FILE /opt/ric/config/config-file.json
 COPY src/ /src
-CMD PYTHONPATH=/src:/usr/lib/python3.7/site-packages/:$PYTHONPATH run-src.py
+CMD PYTHONPATH=/src:/usr/lib/python3/site-packages/:$PYTHONPATH run-src.py

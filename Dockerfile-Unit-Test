@@ -21,7 +21,7 @@ FROM continuumio/miniconda3:23.10.0-1
 RUN mkdir -p /opt/route/
 
 # sdl uses hiredis which needs gcc
-RUN apk update && apk add gcc musl-dev
+RUN apt update && apt install -y gcc musl-dev
 
 # copy rmr libraries from builder image in lieu of an Alpine package
 ARG RMRVERSION=4.9.0
@@ -31,7 +31,6 @@ RUN rm -f rmr_${RMRVERSION}_amd64.deb rmr-dev_${RMRVERSION}_amd64.deb
 
 # Upgrade pip, install tox
 RUN pip install --upgrade pip && pip install tox
-RUN apk update && apk add gcc musl-dev
 
 # copies
 COPY setup.py tox.ini LICENSE.txt /tmp/

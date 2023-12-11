@@ -32,7 +32,6 @@ ENV RMR_SEED_RT /opt/route/local.rt
 # Install
 COPY setup.py /tmp
 COPY LICENSE.txt /tmp/
-# RUN mkdir -p /tmp/ad/
 RUN pip install /tmp
 RUN pip install ricxappframe
 ENV PYTHONUNBUFFERED 1

@@ -30,7 +30,6 @@ RUN apk update && apk add gcc musl-dev
 # Install
 COPY setup.py /tmp
 COPY LICENSE.txt /tmp/
-# RUN mkdir -p /tmp/ad/
 RUN pip install /tmp
 RUN pip install ricxappframe
 RUN pip install --force-reinstall redis==3.0.1

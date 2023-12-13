@@ -22,6 +22,10 @@ All notable changes to this project will be documented in this file.
 The format is based on `Keep a Changelog <http://keepachangelog.com/>`__
 and this project adheres to `Semantic Versioning <http://semver.org/>`__.
 
+[1.0.2] - 2023-12-12
+--------------------
+* Release version 1.0.2 (`RICAPP-229 <https://jira.o-ran-sc.org/browse/RICAPP-229>`_)
+
 [1.0.1] - 2023-06-28
 --------------------
 * Release version 1.0.1 (`RICAPP-215 <https://jira.o-ran-sc.org/browse/RICAPP-215>`_)

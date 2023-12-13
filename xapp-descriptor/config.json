@@ -1,6 +1,6 @@
 {
-        "xapp_name": "ad",
-        "version": "1.0.1",
+        "name": "ad",
+        "version": "1.0.2",
         "containers": [
             {
                 "name": "ad",
@@ -13,6 +13,12 @@
         ],
         "messaging": {
             "ports": [
+                {
+                    "name": "http",
+                    "container": "ad",
+                    "port": 8080,
+                    "description": "http service"
+                },
                 {
                     "name": "rmr-data",
                     "container": "ad",

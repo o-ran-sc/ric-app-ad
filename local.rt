@@ -1,5 +1,5 @@
 newrt|start
-rte|30003|service-ricxapp-trafficxapp-rmr:4560
+rte|30003|service-ricxapp-trafficxapp-rmr.ricxapp:4560
 rte|20011|service-ricplt-a1mediator-rmr.ricplt:4560
 newrt|end
 

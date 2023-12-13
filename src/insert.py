@@ -32,7 +32,7 @@ class INSERTDATA(DATABASE):
         self.config()
         self.connect()
 #        self.dropdb('RIC-Test')
-#        self.createdb('RIC-Test')
+        self.createdb('RIC-Test')
 
     def config(self):
         cfg = ConfigParser()
@@ -49,13 +49,15 @@ class INSERTDATA(DATABASE):
                 self.meas = cfg.get(section, "measurement")
 
     def createdb(self, dbname):
-        print("Create database: " + dbname)
-        self.client.create_database(dbname)
-        self.client.switch_database(dbname)
+        if dbname not in self.client.get_list_database():
+            print("Create database: " + dbname)
+            self.client.create_database(dbname)
+            self.client.switch_database(dbname)
 
     def dropdb(self, dbname):
-        print("DROP database: " + dbname)
-        self.client.drop_database(dbname)
+        if next((item for item in self.client.get_list_database() if item.get("name") == dbname), None) is not None:
+            print("DROP database: " + dbname)
+            self.client.drop_database(dbname)
 
     def dropmeas(self, measname):
         print("DROP MEASUREMENT: " + measname)

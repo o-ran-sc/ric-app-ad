@@ -108,6 +108,8 @@ class CAUSE(object):
                         sample.loc[i, 'Degradation'] = deg
                         if 'Throughput' in deg and ('RSRP' in deg or 'RSRQ' in deg):
                             sample.loc[i, 'Anomaly'] = 2
+                        else:
+                            sample.loc[i, 'Anomaly'] = 1
                     else:
                         sample.loc[i, 'Anomaly'] = 0
         return sample[['Anomaly', 'Degradation']].values.tolist()

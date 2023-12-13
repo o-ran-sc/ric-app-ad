@@ -1,0 +1,8 @@
+Verified+1: ORAN Required GHA <releng+oran.required.gha@linuxfoundation.org>
+Code-Review+2: Deepanshu Karnwal <deepanshu.k@hcl.com>
+Verified+1: ORAN Jobbuilder <releng+oran-jobbuilder@linuxfoundation.org>
+Submitted-by: Deepanshu Karnwal <deepanshu.k@hcl.com>
+Submitted-at: Wed, 13 Dec 2023 20:04:19 +0000
+Reviewed-on: https://gerrit.o-ran-sc.org/r/c/ric-app/ad/+/12279
+Project: ric-app/ad
+Branch: refs/heads/master

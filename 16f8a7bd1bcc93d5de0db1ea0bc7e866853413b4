@@ -16,6 +16,23 @@
       "message": "LF are investigating using Github Actions to do some of the verification jobs for OSC - migrating from Jenkins.\nIn NONRTRIC we have already tested this, and everything is fine, so the LF team would now like to try the approach for this repo. \n\nThis review is one of many spread across sevaral OSC projects.\nhttps://gerrit.o-ran-sc.org/r/q/topic:gha-migration\n\nThis change will not break anything - it is non-voting.\nSo if you are happy, please merge. Or for more info contact Jessica.",
       "revId": "16f8a7bd1bcc93d5de0db1ea0bc7e866853413b4",
       "serverId": "84e4e190-e623-4c37-9eda-58b1937c1b53"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13775116_ffdbf0ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000103
+      },
+      "writtenOn": "2024-03-22T14:17:24Z",
+      "side": 1,
+      "message": "As mentioned above, and during this week\u0027s TOC call, this is one of the multi-project reviews that \u0027Super-Committers\u0027 can merge. \nHowever, Deepanshu \u0026 Sunil, please comment if you wish, and if you are happy you can merge. Otherwise we will merge in coming days.",
+      "revId": "16f8a7bd1bcc93d5de0db1ea0bc7e866853413b4",
+      "serverId": "84e4e190-e623-4c37-9eda-58b1937c1b53"
     }
   ]
 }

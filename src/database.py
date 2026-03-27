@@ -15,48 +15,45 @@
 # ==================================================================================
 import time
 import pandas as pd
-from influxdb import DataFrameClient
+from influxdb_client import InfluxDBClient, WriteOptions
+from influxdb_client.client.write_api import SYNCHRONOUS
 from configparser import ConfigParser
 from mdclogpy import Logger
-from influxdb.exceptions import InfluxDBClientError, InfluxDBServerError
-from requests.exceptions import RequestException, ConnectionError
+from urllib3.exceptions import HTTPError
 
 logger = Logger(name=__name__)
 
 
 class DATABASE(object):
     r""" DATABASE takes an input as database name. It creates a client connection
-      to influxDB and It reads/ writes UE data for a given dabtabase and a measurement.
-
+      to influxDB v2 and reads/writes UE data for a given bucket and measurement.
 
     Parameters
     ----------
-    host: str (default='r4-influxdb.ricplt.svc.cluster.local')
-        hostname to connect to InfluxDB
-    port: int (default='8086')
-        port to connect to InfluxDB
-    username: str (default='root')
-        user to connect
-    password: str (default='root')
-        password of the use
+    url: str (default='http://ricplt-influxdb.ricplt:8086')
+        InfluxDB v2 URL
+    token: str (default='client')
+        authentication token
+    org: str (default='my-org')
+        InfluxDB organization
+    bucket: str (default='kpimon')
+        InfluxDB bucket name
 
     Attributes
     ----------
-    client: influxDB client
-        DataFrameClient api to connect influxDB
+    client: InfluxDBClient
+        InfluxDB v2 client
     data: DataFrame
         fetched data from database
     """
 
-    def __init__(self, dbname='Timeseries', user='root', password='root', host="r4-influxdb.ricplt", port='8086', path='', ssl=False):
+    def __init__(self, url='http://ricplt-influxdb.ricplt:8086', token='client', org='my-org', bucket='kpimon'):
         self.data = None
-        self.host = host
-        self.port = port
-        self.user = user
-        self.password = password
-        self.path = path
-        self.ssl = ssl
-        self.dbname = dbname
+        self.url = url
+        self.token = token
+        self.org = org
+        self.bucket = bucket
+        self.meas = 'UeMetrics'
         self.client = None
         self.config()
 
@@ -65,70 +62,100 @@ class DATABASE(object):
             self.client.close()
 
         try:
-            self.client = DataFrameClient(self.host, port=self.port, username=self.user, password=self.password, path=self.path, ssl=self.ssl, database=self.dbname, verify_ssl=self.ssl)
-            version = self.client.request('ping', expected_response_code=204).headers['X-Influxdb-Version']
-            logger.info("Conected to Influx Database, InfluxDB version : {}".format(version))
-            return True
+            self.client = InfluxDBClient(url=self.url, token=self.token, org=self.org)
+            health = self.client.health()
+            if health.status == "pass":
+                logger.info("Connected to InfluxDB v2, status: {}".format(health.status))
+                return True
+            else:
+                logger.error("InfluxDB health check failed: {}".format(health.message))
+                time.sleep(120)
+                return False
 
-        except (RequestException, InfluxDBClientError, InfluxDBServerError, ConnectionError):
-            logger.error("Failed to establish a new connection with InflulxDB, Please check your url/hostname")
+        except Exception as e:
+            logger.error("Failed to establish a new connection with InfluxDB: {}".format(e))
             time.sleep(120)
+            return False
 
     def read_data(self, train=False, valid=False, limit=False):
         """Read data method for a given measurement and limit
 
         Parameters
         ----------
-        meas: str (default='ueMeasReport')
-        limit:int (defualt=False)
+        train: bool  (use training time range)
+        valid: bool  (use validation time range)
+        limit: int   (limit number of records)
         """
         self.data = None
-        query = 'select * from ' + self.meas
+
         if not train and not valid and not limit:
-            query += ' where time>now()-1600ms'
+            time_range = 'start: -2s'
         elif train:
-            query += ' where time<now()-5m and time>now()-75m'
+            time_range = 'start: -75m, stop: -5m'
         elif valid:
-            query += ' where time>now()-5m'
+            time_range = 'start: -5m'
         elif limit:
-            query += ' where time>now()-1m limit '+str(limit)
-        result = self.query(query)
-        if result and len(result[self.meas]) != 0:
-            self.data = result[self.meas]
+            time_range = 'start: -1m'
+
+        flux_query = (
+            f'from(bucket: "{self.bucket}")'
+            f' |> range({time_range})'
+            f' |> filter(fn: (r) => r._measurement == "{self.meas}")'
+            f' |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")'
+        )
+        if limit:
+            flux_query += f' |> limit(n: {limit})'
+
+        result = self.query(flux_query)
+        if result is not None and len(result) > 0:
+            self.data = result
 
     def write_anomaly(self, df, meas='AD'):
         """Write data method for a given measurement
 
         Parameters
         ----------
+        df: DataFrame
         meas: str (default='AD')
         """
         try:
-            self.client.write_points(df, meas)
-        except (RequestException, InfluxDBClientError, InfluxDBServerError) as e:
-            logger.error('Failed to send metrics to influxdb')
-            print(e)
+            write_api = self.client.write_api(write_options=SYNCHRONOUS)
+            write_api.write(
+                bucket=self.bucket,
+                org=self.org,
+                record=df,
+                data_frame_measurement_name=meas,
+            )
+        except Exception as e:
+            logger.error('Failed to send metrics to influxdb: {}'.format(e))
 
-    def query(self, query):
+    def query(self, flux_query):
         try:
-            result = self.client.query(query)
-        except (RequestException, InfluxDBClientError, InfluxDBServerError, ConnectionError) as e:
-            logger.error('Failed to connect to influxdb: {}'.format(e))
-            result = False
-        return result
+            query_api = self.client.query_api()
+            result = query_api.query_data_frame(flux_query, org=self.org)
+            if isinstance(result, list):
+                result = pd.concat(result, ignore_index=True) if result else pd.DataFrame()
+            if not result.empty:
+                # Clean up influx metadata columns
+                drop_cols = [c for c in ['result', 'table', '_start', '_stop', '_measurement'] if c in result.columns]
+                result.drop(columns=drop_cols, inplace=True)
+                if '_time' in result.columns:
+                    result.set_index('_time', inplace=True)
+                    result.index.name = 'time'
+            return result
+        except Exception as e:
+            logger.error('Failed to query influxdb: {}'.format(e))
+            return None
 
     def config(self):
         cfg = ConfigParser()
         cfg.read('src/ad_config.ini')
         for section in cfg.sections():
             if section == 'influxdb':
-                self.host = cfg.get(section, "host")
-                self.port = cfg.get(section, "port")
-                self.user = cfg.get(section, "user")
-                self.password = cfg.get(section, "password")
-                self.path = cfg.get(section, "path")
-                self.ssl = cfg.get(section, "ssl")
-                self.dbname = cfg.get(section, "database")
+                self.url = cfg.get(section, "url")
+                self.token = cfg.get(section, "token")
+                self.org = cfg.get(section, "org")
+                self.bucket = cfg.get(section, "bucket")
                 self.meas = cfg.get(section, "measurement")
 
             if section == 'features':

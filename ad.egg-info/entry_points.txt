@@ -1,0 +1,2 @@
+[console_scripts]
+run-src.py = src.main:start

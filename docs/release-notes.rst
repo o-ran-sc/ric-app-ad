@@ -24,20 +24,20 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`__.
 
 [1.0.2] - 2023-12-12
 --------------------
-* Release version 1.0.2 (`RICAPP-229 <https://jira.o-ran-sc.org/browse/RICAPP-229>`_)
+* Release version 1.0.2 (`RICAPP-229 <https://lf-o-ran-sc.atlassian.net/jira/browse/RICAPP-229>`_)
 
 [1.0.1] - 2023-06-28
 --------------------
-* Release version 1.0.1 (`RICAPP-215 <https://jira.o-ran-sc.org/browse/RICAPP-215>`_)
+* Release version 1.0.1 (`RICAPP-215 <https://lf-o-ran-sc.atlassian.net/jira/browse/RICAPP-215>`_)
 
 [1.0.0] - 2022-12-09
 --------------------
-* Release version 1.0.0 (`RICAPP-204 <https://jira.o-ran-sc.org/browse/RICAPP-204>`_)
+* Release version 1.0.0 (`RICAPP-204 <https://lf-o-ran-sc.atlassian.net/jira/browse/RICAPP-204>`_)
 
 [0.0.2] - 2021-07-5
 --------------------
-* Release version 0.0.2 (`RICAPP-818 <https://jira.o-ran-sc.org/browse/RIC-818>`_)
+* Release version 0.0.2 (`RICAPP-818 <https://lf-o-ran-sc.atlassian.net/jira/browse/RIC-818>`_)
 
 [0.0.1] - 2020-08-11
 --------------------
-* Initial mock version (`RICAPP-142 <https://jira.o-ran-sc.org/browse/RICAPP-142>`_)
+* Initial mock version (`RICAPP-142 <https://lf-o-ran-sc.atlassian.net/jira/browse/RICAPP-142>`_)
